@@ -1,0 +1,17 @@
+{
+    "title":"cs160AlarmApp",
+    "description":"This template can be used to create a basic KinomaJS application .",
+    "id":"cs160alarmapp.project.kinoma.marvell.com",
+    "tags":[
+        "emptySample"
+    ],
+    "Create":{
+        "main":"main"
+    },
+    "iap140":{
+    	"main":"main"
+    },
+    "Element":{
+        "main":"main"
+    }
+}
