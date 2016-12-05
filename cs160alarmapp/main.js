@@ -52,7 +52,7 @@ class ButtonBehavior extends Behavior {
 	onTouchBegan(button) {
 		button.add(new Container({
 			left: 0, right: 0, top: 0, bottom: 0,
-			skin: THEME.whiteSkin
+			skin: THEME.bannerSkin
 		}));
 	}
 	onTouchEnded(button) {
@@ -288,13 +288,18 @@ let SearchingScreen = Container.template($ => ({
 				Picture($, {top: 140, height: 300, width: 300, url: "assets/syncing.png"}),
 			]
 		}),
-		Line($ ,{
-			left: 5, right: 5, top: 0, height: 80,
-			skin: THEME.whiteSkin,
+		Container($, {
+			top: 0, height: 80, left: 0, right: 0,
+			skin: THEME.bannerSkin,
 			contents: [
-				new LinkButton({ nextScreen: MainScreen, direction: "right", url: "cancel.jpg" }),
-				Label($, {left: 5, right: 5, string: "Searching...", style: THEME.titleStyle}),
-				new Container({ right: 0, width: 10})
+				Line($ ,{
+					left: 5, right: 5, top: 0, bottom: 0,
+					contents: [
+						new LinkButton({ nextScreen: MainScreen, direction: "right", url: "cancel.png" }),
+						Label($, {left: 5, right: 5, string: "Searching...", style: THEME.titleStyle}),
+						new Container({ right: 0, width: 10})
+					]
+				})
 			]
 		})
 	],
@@ -397,7 +402,7 @@ let KeyboardScreen = Container.template($ => ({
 		}),
 		Line($ ,{
 			left: 0, right: 0, top: 0, height: 80,
-			skin: THEME.whiteSkin,
+			skin: THEME.bannerSkin,
 			contents: [
 				new LinkButton({ nextScreen: MainScreen, direction: "right", url: "back.png" }),
 				Label($, {left: 5, right: 5, string: "Add Device", style: THEME.titleStyle, anchor: "title"}),
@@ -448,16 +453,20 @@ let AddingDeviceScreen = Container.template($ => ({
 				}
 			})
 		}),
-		Line($ ,{
-			left: 5, right: 5, top: 0, height: 80,
-			skin: THEME.whiteSkin,
+		Container($, {
+			left: 0, right: 0, top: 0, height: 80,
+			skin: THEME.bannerSkin,
 			contents: [
-				new LinkButton({ nextScreen: MainScreen, direction: "right", url: "back.png" }),
-				Label($, {left: 5, right: 5, string: "Add Device", style: THEME.titleStyle, anchor: "title"}),
-				new Container({ right: 0, width: 15})
+				Line($ ,{
+					left: 5, right: 5, top: 0, bottom: 0,
+					contents: [
+						new LinkButton({ nextScreen: MainScreen, direction: "right", url: "back.png" }),
+						Label($, {left: 5, right: 5, string: "Add Device", style: THEME.titleStyle, anchor: "title"}),
+						new Container({ right: 0, width: 15})
+					]
+				})
 			]
 		})
-		
 	],
 
 }))
@@ -524,7 +533,7 @@ let SoundScreen = Container.template($ => ({
 			]
 		}),
 		Line($, {
-			left: 0, right: 0, top: 0, height: 80,
+			left: 0, right: 0, top: 0, height: 80, skin: THEME.bannerSkin,
 			contents: [
 				new Container(({
 					left: 15, top: 15, bottom: 15, active: true,
@@ -689,7 +698,7 @@ let ManagingScreen = Container.template($ => ({
 		}),
 		Line($ ,{
 			left: 0, right: 0, top: 0, height: 80,
-			skin: THEME.whiteSkin,
+			skin: THEME.bannerSkin,
 			contents: [
 				new LinkButton({ nextScreen: MainScreen, direction: "right", url: "back.png" }),
 				Label($, {left: 5, right: 5, string: deviceTable[$.index].name, style: THEME.titleStyle}),
@@ -703,25 +712,30 @@ let ManagingScreen = Container.template($ => ({
 
 // MainScreen
 let DevicePad = Container.template($ => ({
-	active: true, left: 2, right: 2, bottom: 2, height: 74,
-	skin: THEME.whiteSkin,
+	left: 0, right: 0, bottom: 2, height: 78,
+	skin: THEME.deviceBorderdSkin,
 	contents: [
-		Line($, {
-			left: 5, right: 5, top: 5, bottom: 5,
+		Container($, {
+			active: true, left: 5, right: 5, bottom: 1, top: 1,
+			skin: THEME.whiteSkin,
 			contents: [
-				Picture($, { top: 2, bottom: 2, left: 2, width: 70, height: 70, url: "assets/" + $.url, aspect: "fit" }),
-				Label($, { left: 0, right: 0, string: $.name, style: THEME.buttonStyle }),
-				SwitchButton($)
-			]
+				Line($, {
+					left: 5, right: 5, top: 5, bottom: 5,
+					contents: [
+						Picture($, { top: 2, bottom: 2, left: 2, width: 70, height: 70, url: "assets/" + $.url, aspect: "fit" }),
+						Label($, { left: 0, right: 0, string: $.name, style: THEME.buttonStyle }),
+						SwitchButton($)
+					]
+				})
+			],
+			behavior: Behavior({
+				onTouchEnded: function(container) {
+					application.distribute("onReset");
+					application.run( new Push(), application.last, new ManagingScreen({index: $.index}), { duration: 400, direction: "left" } );
+				}
+			})
 		})
-	],
-	behavior: Behavior({
-		onTouchEnded: function(container) {
-			application.distribute("onReset");
-			application.run( new Push(), application.last, new ManagingScreen({index: $.index}), { duration: 400, direction: "left" } );
-		}
-	})
-
+	]
 }));
 
 let DeviceColumn = Column.template($ => ({ 
@@ -784,7 +798,7 @@ let MainScreen = Container.template($ => ({
 	left: 0, right: 0, top: 0, bottom: 0, skin: THEME.whiteSkin,
 	contents: [
 		VerticalScroller($, {
-			active: true, top: 280, bottom: 0, left: 0, right: 0,
+			active: true, top: 282, bottom: 0, left: 0, right: 0,
 			contents: [
 				DeviceColumn($),
                 VerticalScrollbar(), 
@@ -802,7 +816,7 @@ let MainScreen = Container.template($ => ({
 		}),
 		Line($, {
 			left: 0, right: 0, top: 0, height: 80,
-			skin: THEME.whiteSkin,
+			skin: THEME.bannerSkin,
 			contents: [
 				new Container({ left: 0, width: 65}),
 				Label($, {left: 5, right: 5, string: "AlertMe", style: THEME.titleStyle}),
@@ -893,6 +907,6 @@ var model = application.behavior = Behavior({
     onQuit(application) {
         application.forget("prog3device.project.kinoma.marvell.com");
     }
-})
+});
 
 application.style = new Style({ font: "Fira Sans" });
