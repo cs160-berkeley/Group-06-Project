@@ -13,7 +13,7 @@ Group 06 Project
 1. GPS
 
 # Note on Device
-* This device is for Kindle only.
+* This device is for new device only.
 * It should be synced first to manipulate settings of this device.
 
 # Implemented features
