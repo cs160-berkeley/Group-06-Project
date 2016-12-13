@@ -4,13 +4,16 @@ Group 06 Project
 # Pins List
 ## Companion App
 
-1. Motion Sensor
+1. Motion Sensor (better simulation with a switch)
 2. Sync Signal
-3. Thumbprint Sensor
+3. Thumbprint Sensor (better simulation with a switch)
 4. GPS
 
 ## Device App
 1. GPS
+
+# Note on Companion App
+* Screen size: 375 x 667 (iPhone 7 size)
 
 # Note on Device
 * This device is for new device only.
